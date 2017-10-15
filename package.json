@@ -1,0 +1,9 @@
+{
+  "name": "spark-sjs",
+  "version": "0.4.2",
+  "private": true,
+  "dependencies": {
+    "eclairjs": "^0.10.2",
+    "source-map-support": "^0.4.14"
+  }
+}
