@@ -1,6 +1,6 @@
 Spark API for Scala.js
 ================================
-[spark](https://www.npmjs.com/package/eclairjs) - A JavaScript and Node.js API for Apache Spark.
+[eclairjs](https://www.npmjs.com/package/eclairjs) - A JavaScript and Node.js API for Apache Spark.
 
 ### Description
 

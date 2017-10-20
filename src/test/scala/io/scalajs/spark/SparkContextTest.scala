@@ -17,7 +17,7 @@ import scala.util.{Failure, Success}
 class SparkContextTest extends FunSpec {
 
   describe("SparkContext") {
-    implicit val spark = Spark()
+    implicit val spark: Spark = Spark()
 
     it("should run the 'Simple Spark Program' example") {
       val sc = spark.SparkContext("local[*]", "Simple Spark Program")

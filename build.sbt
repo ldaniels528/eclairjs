@@ -24,10 +24,13 @@ lazy val root = (project in file(".")).
     autoCompilerPlugins := true,
     scalaJSModuleKind := ModuleKind.CommonJSModule,
     libraryDependencies ++= Seq(
-	    "org.scala-lang" % "scala-reflect" % scalaJsVersion,
-	    "org.scalatest" %%% "scalatest" % "3.0.1" % "test",
-	    "io.scalajs" %%% "nodejs-core" % scalaJsIOVersion
-  ))
+      "org.scala-lang" % "scala-reflect" % scalaJsVersion,
+      "io.scalajs" %%% "nodejs-core" % scalaJsIOVersion,
+      //
+      // Testing
+      "org.scalatest" %%% "scalatest" % "3.0.1" % "test",
+      "io.scalajs" %%% "nodejs" % scalaJsIOVersion % "test"
+    ))
 
 /////////////////////////////////////////////////////////////////////////////////
 //      Publishing

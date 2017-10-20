@@ -1,7 +1,5 @@
 package io.scalajs.spark
 
-import io.scalajs.util.ScalaJsHelper._
-
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
@@ -32,11 +30,14 @@ trait Spark extends js.Object {
   */
 @js.native
 @JSImport(module = "eclairjs", JSImport.Namespace)
-object Spark extends js.Object {
+object Spark extends SparkClass
 
-  def apply(): Spark = this.New()
-
-}
+/**
+  * Spark Module Class
+  * @author lawrence.daniels@gmail.com
+  */
+@js.native
+trait SparkClass extends js.Object
 
 /**
   * SparkConf class

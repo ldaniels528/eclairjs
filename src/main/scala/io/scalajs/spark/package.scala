@@ -8,6 +8,19 @@ import io.scalajs.util.ScalaJsHelper._
   */
 package object spark {
 
+  type SaveMode = String
+
+  /**
+    * Spark Constructor
+    * @param `class` the given SparkConf class reference
+    */
+  final implicit class SparkConstructor(val `class`: SparkClass) extends AnyVal {
+
+    @inline
+    def apply(): Spark = `class`.New()
+
+  }
+
   /**
     * Spark Conf Constructor
     * @param `class` the given SparkConf class reference

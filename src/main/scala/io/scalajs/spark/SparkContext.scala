@@ -1,12 +1,16 @@
 package io.scalajs.spark
 
+import io.scalajs.spark.sql.DataFrameReader
+
 import scala.scalajs.js
+import scala.scalajs.js.annotation.JSGlobal
 
 /**
   * Spark Context
   * @param master the given Spark master node
   * @param name   the given application name/descriptor
   */
+@JSGlobal
 @js.native
 class SparkContext(master: String, name: String) extends js.Object {
 
@@ -41,6 +45,8 @@ class SparkContext(master: String, name: String) extends js.Object {
   def isLocal(): js.Promise[Boolean] = js.native
 
   def isStopped(): js.Promise[Boolean] = js.native
+
+  def read: DataFrameReader = js.native
 
   def parallelize[T](list: js.Array[T], numSlices: Int = js.native): RDD[T] = js.native
 
