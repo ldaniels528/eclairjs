@@ -1,6 +1,5 @@
 package io.scalajs.spark.sql
 
-import io.scalajs.spark.DataSet
 import io.scalajs.spark.sql.types.StructType
 
 import scala.scalajs.js
@@ -33,6 +32,13 @@ class DataFrameReader() extends js.Object {
     * @return a [[DataFrame]]
     */
   def jdbc(url: String, table: String, connectionProperties: js.Dictionary[String]): DataFrame = js.native
+
+  /**
+    * Loads a JSON file, or RDD[String] storing JSON objects (one object per line) and returns the result as a DataFrame.
+    * @param input the given input path
+    * @return a [[DataFrame]]
+    */
+  def json(input: String): DataFrame = js.native
 
   /**
     * Loads input in as a DataFrame
@@ -92,6 +98,6 @@ class DataFrameReader() extends js.Object {
     * @param path the input path
     * @return a [[DataFrame]]
     */
-  def textFile(path: String): DataSet = js.native
+  def textFile(path: String): DataSet[String] = js.native
 
 }

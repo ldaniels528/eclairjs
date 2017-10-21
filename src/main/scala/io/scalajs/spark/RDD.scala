@@ -42,6 +42,19 @@ trait RDD[T] extends js.Object {
 
   def foreach(v: T => Any, bindArgs: js.Array[T] = js.native): Unit = js.native
 
+  /**
+    * Return an RDD of grouped items. Each group consists of a key and a sequence of elements mapping to that key.
+    * The ordering of elements within each group is not guaranteed, and may even differ each time the resulting RDD
+    * is evaluated. Note: This operation may be very expensive. If you are grouping in order to perform an aggregation
+    * (such as a sum or average) over each key, using aggregateByKey or reduceByKey will provide much better performance.
+    * @param func          Function with one parameter
+    * @param numPartitions How many partitions to use in the resulting RDD (if non-zero partitioner is ignored)
+    * @param partitioner   Partitioner to use for the resulting RDD
+    * @param bindArgs      array whose values will be added to func's argument list.
+    * @return
+    */
+  def groupBy(func: js.Function, numPartitions: Int = js.native, partitioner: Partitioner = js.native, bindArgs: js.Array[js.Any] = js.native): RDD[T] = js.native
+
   def map[U](v: T => U, bindArgs: js.Array[U] = js.native): RDD[U] = js.native
 
   @JSName("mapToPair")

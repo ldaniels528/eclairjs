@@ -5,6 +5,6 @@ import scala.scalajs.js.annotation.JSGlobal
 
 @js.native
 @JSGlobal
-class DataSet extends js.Object {
+class Partitioner extends js.Object {
 
 }
