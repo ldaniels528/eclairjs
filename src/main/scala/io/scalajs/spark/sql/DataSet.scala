@@ -7,4 +7,8 @@ import scala.scalajs.js.annotation.JSGlobal
 @JSGlobal
 class DataSet[T] extends js.Object {
 
+  def collect(): js.Promise[js.Array[T]] = js.native
+
+  def take(count: Int): js.Promise[js.Array[T]] = js.native
+
 }

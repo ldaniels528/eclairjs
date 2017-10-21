@@ -1,10 +1,11 @@
 package io.scalajs.spark.sql
 
-import io.scalajs.spark.sql.types.StructType
 import io.scalajs.spark.RDD
+import io.scalajs.spark.sql.types.StructType
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobal
+import scala.scalajs.js.|
 
 /**
   * The entry point to programming Spark with the Dataset and DataFrame API. In environments that this has been
@@ -46,14 +47,14 @@ class SparkSession(appName: String, master: String) extends js.Object {
     *                and values indicating Datatype
     * @return a [[DataSet]]
     */
-  def createDataset[T](data: String, encoder: js.Function): DataSet[T] = js.native
+  def createDataset[T](data: js.Array[T], encoder: Encoder): DataSet[T] = js.native
 
   /**
     * Creates a Dataset from RDD of JSON
     * @param schema object with keys corresponding to JSON field names (or getter functions), and values indicating Datatype
     * @return a [[DataSet]]
     */
-  def createDatasetFromJson(schema: StructType): DataSet[String] = js.native
+  def createDatasetFromJson(schema: StructType | js.Any, encoder: Encoder = js.native): DataSet[String] = js.native
 
   /**
     * Creates a new Dataset of type T containing zero elements.

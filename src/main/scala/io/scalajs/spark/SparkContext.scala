@@ -106,7 +106,7 @@ class SparkContext(master: String, name: String) extends js.Object {
   def textFile(path: String): RDD[String] = js.native
 
   /**
-    * 
+    *
     */
   def stop(): Unit = js.native
 

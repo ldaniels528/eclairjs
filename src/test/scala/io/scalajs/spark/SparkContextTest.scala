@@ -15,43 +15,48 @@ import scala.util.{Failure, Success}
   * @author lawrence.daniels@gmail.com
   */
 class SparkContextTest extends FunSpec {
+  private val sparkIsUp = false
 
   describe("SparkContext") {
     implicit val spark: Spark = Spark()
 
     it("should run the 'Simple Spark Program' example") {
-      val sc = spark.SparkContext("local[*]", "Simple Spark Program")
+      if(sparkIsUp) {
+        val sc = spark.SparkContext("local[*]", "Simple Spark Program")
 
-      val rdd = sc.parallelize(js.Array(1.10, 2.2, 3.3, 4.4))
+        val rdd = sc.parallelize(js.Array(1.10, 2.2, 3.3, 4.4))
 
-      rdd.collect() onComplete {
-        case Success(results) =>
-          console.log("results: ", results)
-          sc.stop()
-        case Failure(e) =>
-          console.error(e.getMessage)
-          sc.stop()
+        rdd.collect() onComplete {
+          case Success(results) =>
+            console.log("results: ", results)
+            sc.stop()
+          case Failure(e) =>
+            console.error(e.getMessage)
+            sc.stop()
+        }
       }
     }
 
     it("should run the 'Simple Word Count' example") {
-      val sc = spark.SparkContext("local[*]", "Simple Word Count")
+      if(sparkIsUp) {
+        val sc = spark.SparkContext("local[*]", "Simple Word Count")
 
-      val textFile = sc.textFile("foo.txt")
+        val textFile = sc.textFile("foo.txt")
 
-      val words = textFile.flatMap(_.split(" ").toJSArray)
+        val words = textFile.flatMap(_.split(" ").toJSArray)
 
-      val wordsWithCount = words.mapToPair(word => word -> 1)
+        val wordsWithCount = words.mapToPair(word => word -> 1)
 
-      val reducedWordsWithCount = wordsWithCount.reduceByKey((value1, value2) => value1 + value2)
+        val reducedWordsWithCount = wordsWithCount.reduceByKey((value1, value2) => value1 + value2)
 
-      reducedWordsWithCount.collect() onComplete {
-        case Success(results) =>
-          console.log("Word Count:", results)
-          sc.stop()
-        case Failure(e) =>
-          console.error(e.getMessage)
-          sc.stop()
+        reducedWordsWithCount.collect() onComplete {
+          case Success(results) =>
+            console.log("Word Count:", results)
+            sc.stop()
+          case Failure(e) =>
+            console.error(e.getMessage)
+            sc.stop()
+        }
       }
     }
 

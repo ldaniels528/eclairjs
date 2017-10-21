@@ -1,6 +1,7 @@
 package io.scalajs.spark.sql
 
 import scala.scalajs.js
+import scala.scalajs.js.|
 
 /**
   * A distributed collection of data organized into named columns. A DataFrame is equivalent to a relational table in Spark SQL.
@@ -31,12 +32,25 @@ trait DataFrame extends DataSet[Row] {
     */
   def col(name: String): Column = js.native
 
+  def count(): js.Promise[Double] = js.native
+
+  /**
+    *
+    * @param table
+    * @return
+    */
+  def createOrReplaceTempView(table: String): js.Promise[Unit] = js.native
+
+  def filter(column: Column): this.type = js.native
+
+  def groupBy(column: Column | String): this.type = js.native
+
   /**
     *
     * @param cols
     * @return
     */
-  def select(cols: Column*): this.type = js.native
+  def select(cols: (Column | String)*): this.type = js.native
 
   /**
     *

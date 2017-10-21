@@ -1,14 +1,15 @@
 package io.scalajs.spark.sql
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.{JSGlobal, JSName}
+import scala.scalajs.js.annotation.{JSImport, JSName}
+import scala.scalajs.js.|
 
 /**
   * A column in a DataFrame.
   * @param name the name of the column
   */
-@JSGlobal
 @js.native
+@JSImport(module = "eclairjs", name = "sql/Column")
 class Column(name: String) extends js.Object {
 
   /**
@@ -94,14 +95,14 @@ class Column(name: String) extends js.Object {
     * @param other the other [[Column column]]
     * @return the new [[Column column]]
     */
-  def divide(other: Column): this.type = js.native
+  def divide(other: Column | Double): this.type = js.native
 
   /**
     * Equality test that is safe for null values.
     * @param other the other [[Column column]]
     * @return the new [[Column column]]
     */
-  def eqNullSafe(other: Column): this.type = js.native
+  def eqNullSafe(other: Column | Double): this.type = js.native
 
   /**
     * Equality test
@@ -121,7 +122,7 @@ class Column(name: String) extends js.Object {
     * @param other the other [[Column column]]
     * @return the new [[Column column]]
     */
-  def geq(other: Column): this.type = js.native
+  def geq(other: Column | Double): this.type = js.native
 
   /**
     * An expression that gets a field by name in a StructType.
@@ -142,7 +143,7 @@ class Column(name: String) extends js.Object {
     * @param other the other [[Column column]]
     * @return the [[Column result]]
     */
-  def gt(other: Column): this.type = js.native
+  def gt(other: (Column | Double)): this.type = js.native
 
   /**
     * Returns a Promise that resolves to the hashcode.
@@ -188,7 +189,7 @@ class Column(name: String) extends js.Object {
     * @param other the other [[Column column]]
     * @return the [[Column column]]
     */
-  def leq(other: Column): this.type = js.native
+  def leq(other: Column | Double): this.type = js.native
 
   /**
     * SQL like expression.
@@ -202,42 +203,42 @@ class Column(name: String) extends js.Object {
     * @param other the other [[Column column]]
     * @return the [[Column column]]
     */
-  def lt(other: Column): this.type = js.native
+  def lt(other: Column | Double): this.type = js.native
 
   /**
     * Subtraction. Subtract the other expression from this expression.
     * @param other the other [[Column column]]
     * @return the [[Column column]]
     */
-  def minus(other: Column): this.type = js.native
+  def minus(other: Column | Double): this.type = js.native
 
   /**
     * Modulo (a.k.a. remainder) expression.
     * @param other the other [[Column column]]
     * @return the [[Column column]]
     */
-  def mod(other: Column): this.type = js.native
+  def mod(other: Column | Double): this.type = js.native
 
   /**
     * Multiplication of this expression and another expression.
     * @param other the other [[Column column]]
     * @return the [[Column column]]
     */
-  def multiply(other: Column): this.type = js.native
+  def multiply(other: Column | Double): this.type = js.native
 
   /**
     * Inequality test.
     * @param other the other [[Column column]]
     * @return the [[Column column]]
     */
-  def notEqual(other: Column): this.type = js.native
+  def notEqual(other: Column | Double): this.type = js.native
 
   /**
     * Boolean OR.
     * @param other the other [[Column column]]
     * @return the [[Column column]]
     */
-  def or(other: Column): this.type = js.native
+  def or(other: Column | Double): this.type = js.native
 
   /**
     * Evaluates a list of conditions and returns one of multiple possible result expressions.
@@ -252,7 +253,7 @@ class Column(name: String) extends js.Object {
     * @param other the other [[Column column]]
     * @return the new [[Column column]]
     */
-  def plus(other: Column): this.type = js.native
+  def plus(other: (Column | Double)): this.type = js.native
 
   /**
     * Evaluates a list of conditions and returns one of multiple possible result expressions.
@@ -278,7 +279,7 @@ object Column {
       * @return the new [[Column column]]
       */
     @inline
-    def ===(other: Column): Column = column.eqNullSafe(other)
+    def ===(other: Column | Double): Column = column.eqNullSafe(other)
 
     /**
       * Greater than or equal to an expression.
@@ -286,7 +287,7 @@ object Column {
       * @return the new [[Column column]]
       */
     @inline
-    def >=(other: Column): Column = column.geq(other)
+    def >=(other: Column | Double): Column = column.geq(other)
 
     /**
       * Greater than.
@@ -294,7 +295,7 @@ object Column {
       * @return the [[Column result]]
       */
     @inline
-    def >(other: Column): Column = column.gt(other)
+    def >(other: Column | Double): Column = column.gt(other)
 
     /**
       * Less than or equal to.
@@ -302,7 +303,7 @@ object Column {
       * @return the [[Column column]]
       */
     @inline
-    def <=(other: Column): Column = column.leq(other)
+    def <=(other: Column | Double): Column = column.leq(other)
 
     /**
       * Less than.
@@ -310,7 +311,7 @@ object Column {
       * @return the [[Column column]]
       */
     @inline
-    def <(other: Column): Column = column.lt(other)
+    def <(other: Column | Double): Column = column.lt(other)
 
     /**
       * Division this expression by another expression.
@@ -318,7 +319,7 @@ object Column {
       * @return the new [[Column column]]
       */
     @inline
-    def /(other: Column): Column = column.divide(other)
+    def /(other: Column | Double): Column = column.divide(other)
 
     /**
       * Subtraction. Subtract the other expression from this expression.
@@ -326,7 +327,7 @@ object Column {
       * @return the [[Column column]]
       */
     @inline
-    def -(other: Column): Column = column.minus(other)
+    def -(other: Column | Double): Column = column.minus(other)
 
     /**
       * Modulo (a.k.a. remainder) expression.
@@ -334,7 +335,7 @@ object Column {
       * @return the [[Column column]]
       */
     @inline
-    def %(other: Column): Column = column.mod(other)
+    def %(other: Column | Double): Column = column.mod(other)
 
     /**
       * Multiplication of this expression and another expression.
@@ -342,7 +343,7 @@ object Column {
       * @return the [[Column column]]
       */
     @inline
-    def *(other: Column): Column = column.multiply(other)
+    def *(other: Column | Double): Column = column.multiply(other)
 
     /**
       * Inequality test.
@@ -350,7 +351,7 @@ object Column {
       * @return the [[Column column]]
       */
     @inline
-    def =!=(other: Column): Column = column.notEqual(other)
+    def =!=(other: Column | Double): Column = column.notEqual(other)
 
     /**
       * Boolean OR.
@@ -358,7 +359,7 @@ object Column {
       * @return the [[Column column]]
       */
     @inline
-    def ||(other: Column): Column = column.or(other)
+    def ||(other: Column | Double): Column = column.or(other)
 
     /**
       * Sum of this expression and another expression.
@@ -366,7 +367,7 @@ object Column {
       * @return the new [[Column column]]
       */
     @inline
-    def +(other: Column): Column = column.plus(other)
+    def +(other: Column | Double): Column = column.plus(other)
 
   }
 

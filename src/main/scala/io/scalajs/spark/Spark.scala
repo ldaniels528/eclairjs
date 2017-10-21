@@ -1,5 +1,7 @@
 package io.scalajs.spark
 
+import io.scalajs.spark.sql.{SQL, Types}
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSImport
 
@@ -14,6 +16,8 @@ trait Spark extends js.Object {
 
   val SparkContext: SparkContextClass = js.native
 
+  val sql: SQL = js.native
+
   val Tuple: TupleClass = js.native
 
   val Tuple2: Tuple2Class = js.native
@@ -21,6 +25,8 @@ trait Spark extends js.Object {
   val Tuple3: Tuple3Class = js.native
 
   val Tuple4: Tuple4Class = js.native
+
+  val types: Types = js.native
 
 }
 
