@@ -15,8 +15,6 @@ import scala.scalajs.js.annotation.JSGlobal
 @JSGlobal
 class DataFrameReader() extends js.Object {
 
-  def csv(path: String): DataFrame = js.native
-
   /**
     * Specifies the input data source format.
     * @param source the input data source format
@@ -99,5 +97,20 @@ class DataFrameReader() extends js.Object {
     * @return a [[DataFrame]]
     */
   def textFile(path: String): DataSet[String] = js.native
+
+}
+
+/**
+  * DataFrameReader Companion
+  * @author lawrence.daniels@gmail.com
+  */
+object DataFrameReader{
+
+  final implicit class DataFrameReaderEnrichment(val reader: DataFrameReader) extends AnyVal {
+
+    @inline
+    def csv(path: String): DataFrame = reader.format("csv").load(path)
+
+  }
 
 }

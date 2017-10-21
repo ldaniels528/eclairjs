@@ -38,8 +38,20 @@ trait RDD[T] extends js.Object {
     */
   def filter(v: T => Boolean, bindArgs: js.Array[T] = js.native): RDD[T] = js.native
 
+  /**
+    *
+    * @param v
+    * @param bindArgs
+    * @tparam U
+    * @return
+    */
   def flatMap[U](v: T => js.Array[U], bindArgs: js.Array[U] = js.native): RDD[U] = js.native
 
+  /**
+    *
+    * @param v
+    * @param bindArgs
+    */
   def foreach(v: T => Any, bindArgs: js.Array[T] = js.native): Unit = js.native
 
   /**
@@ -55,8 +67,22 @@ trait RDD[T] extends js.Object {
     */
   def groupBy(func: js.Function, numPartitions: Int = js.native, partitioner: Partitioner = js.native, bindArgs: js.Array[js.Any] = js.native): RDD[T] = js.native
 
+  /**
+    *
+    * @param v
+    * @param bindArgs
+    * @tparam U
+    * @return
+    */
   def map[U](v: T => U, bindArgs: js.Array[U] = js.native): RDD[U] = js.native
 
+  /**
+    *
+    * @param v
+    * @param `class`
+    * @tparam U
+    * @return
+    */
   @JSName("mapToPair")
   def mapToPairJS[U](v: T => Tuple2[T, U], `class`: TupleClass): RDD2[T, U] = js.native
 
@@ -67,6 +93,61 @@ trait RDD[T] extends js.Object {
     * @return a completion process
     */
   def saveAsObjectFile(path: String, overwrite: Boolean = js.native): js.Promise[Unit] = js.native
+
+  /**
+    * Save this RDD as a text file, using string representations of elements.
+    * @param path      the output path
+    * @param overwrite defaults to false, if true overwrites file if it exists
+    * @return a completion process
+    */
+  def saveAsTextFile(path: String, overwrite: Boolean = js.native): js.Promise[Unit] = js.native
+
+  /**
+    * Return this RDD sorted by the given key function.
+    * @param ascending indicates whether to sort ascending
+    * @return the [[RDD]]
+    */
+  def sortByKey(ascending: Boolean): this.type = js.native
+
+  /**
+    * Return an RDD with the elements from `this` that are not in `other`.
+    * @param other         the other [[RDD]]
+    * @param numPartitions the optional number of partitions
+    * @param p             ignored if numPartitions is non-zero)
+    */
+  def subtract[U](other: RDD[U], numPartitions: Int = js.native, p: Partition = js.native)
+
+  /**
+    * Asynchronously returns the first num elements in this RDD.
+    * @param num the number of elements to take
+    * @return the promise of an array
+    */
+  def take(num: Int): js.Promise[js.Array[T]] = js.native
+
+  /**
+    * Asynchronously returns the first k (smallest) elements from this RDD as defined by the specified implicit
+    * Ordering[T] and maintains the ordering. This does the opposite of top.
+    * @param num
+    * @param func
+    * @param bindArgs
+    * @return the promise of an array
+    */
+  def takeOrdered(num: Int, func: js.Function, bindArgs: js.Array[T] = js.native): js.Promise[js.Array[T]] = js.native
+
+  /**
+    * Return a fixed-size sampled subset of this RDD in an array
+    * @param withReplacement whether sampling is done with replacement
+    * @param num             size of the returned sample
+    * @param seed            seed for the random number generator
+    * @return the promise of an array
+    */
+  def takeSample(withReplacement: Boolean, num: Int, seed: Int): js.Promise[js.Array[T]] = js.native
+
+  /**
+    * Return an array that contains all of the elements in this RDD.
+    * @return the promise of an array
+    */
+  def toArray(): js.Promise[js.Array[T]] = js.native
 
   /**
     * Return the union of this RDD and another one. Any identical elements will appear multiple times (use `.distinct()` to eliminate them).

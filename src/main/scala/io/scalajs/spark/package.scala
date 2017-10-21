@@ -8,8 +8,6 @@ import io.scalajs.util.ScalaJsHelper._
   */
 package object spark {
 
-  type SaveMode = String
-
   /**
     * Spark Constructor
     * @param `class` the given SparkConf class reference

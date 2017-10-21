@@ -1,6 +1,6 @@
 package io.scalajs.spark
 
-import io.scalajs.spark.sql.SparkSession
+import io.scalajs.spark.sql.{SaveMode, SparkSession}
 import org.scalatest.FunSpec
 
 /**
