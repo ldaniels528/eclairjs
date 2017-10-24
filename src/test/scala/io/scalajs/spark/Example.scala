@@ -1,9 +1,9 @@
 package io.scalajs.spark
 
-import io.scalajs.nodejs.Module.module
+import io.scalajs.JSON
 import io.scalajs.nodejs._
 import io.scalajs.spark.sql.types.StructField
-import io.scalajs.spark.sql.{Row, SparkSession}
+import io.scalajs.spark.sql._
 import io.scalajs.util.PromiseHelper.Implicits._
 
 import scala.scalajs.js
@@ -27,13 +27,6 @@ import scala.util.{Failure, Success}
 */
 object Example {
   private val root = process.env.getOrElse("EXAMPLE_ROOT", __dirname + "/../..")
-
-  def exit(): Unit = process.exit()
-
-  def stop(e: Exception)(implicit sparkSession: SparkSession) {
-    if (e != null) e.printStackTrace()
-    sparkSession.stop() onComplete { _ => exit() }
-  }
 
   def runBasicDataFrameExample(sparkSession: SparkSession, spark: Spark): js.Promise[js.Array[Row]] = {
     new js.Promise((resolve, reject) => {
@@ -71,7 +64,7 @@ object Example {
       }
     })
   }
-  
+
   def runDatasetCreationExample(sparkSession: SparkSession, spark: Spark): js.Promise[js.Array[Row]] = {
     new js.Promise((resolve, reject) => {
 
@@ -147,7 +140,7 @@ object Example {
       }
     })
   }
-  
+
   def runInferSchemaExample(sparkSession: SparkSession, spark: Spark): js.Promise[Nothing] = {
     new js.Promise((resolve, reject) => {
       // Load a text file and convert each line to a JavaScript Object.
@@ -158,11 +151,11 @@ object Example {
       })
 
       //Generate the schema
-     import spark.sql.types.DataTypes
+      import spark.sql.types.DataTypes
 
       val fields = js.Array[StructField]()
-      fields.push(DataTypes.createStructField("name", DataTypes.StringType, nullable =  true))
-      fields.push(DataTypes.createStructField("age", DataTypes.IntegerType, nullable =  true))
+      fields.push(DataTypes.createStructField("name", DataTypes.StringType, nullable = true))
+      fields.push(DataTypes.createStructField("age", DataTypes.IntegerType, nullable = true))
       val schema = DataTypes.createStructType(fields)
 
       import spark.sql.RowFactory
@@ -194,55 +187,59 @@ object Example {
       })
     })
   }
-  
-  if (global.SC) {
-    // we are being run as part of a test
-    module.exports = run
-  } else {
-    val spark = Spark()
-    val sparkSession = spark.sql.SparkSession
-      .builder()
-      .appName("Spark SQL Example")
-      .getOrCreate()
 
-    val promises = js.Array[js.Promise[_]]()
-    promises.push(runBasicDataFrameExample(sparkSession, spark))
-    promises.push(runDatasetCreationExample(sparkSession, spark))
-    promises.push(runInferSchemaExample(sparkSession, spark))
-    promises.push(runProgrammaticSchemaExample(sparkSession, spark))
+  private val spark = Spark()
+  private val sparkSession = spark.sql.SparkSession
+    .builder()
+    .appName("Spark SQL Example")
+    .getOrCreate()
 
-    js.Promise.all(promises) onComplete {
-      case Success(results) =>
+  private val promises = js.Array[js.Promise[_]]()
+  promises.push(runBasicDataFrameExample(sparkSession, spark))
+  promises.push(runDatasetCreationExample(sparkSession, spark))
+  promises.push(runInferSchemaExample(sparkSession, spark))
+  promises.push(runProgrammaticSchemaExample(sparkSession, spark))
 
-        def printRows(rows: js.Array[Row]) = {
-          var s = "\n"
-          if (rows(0) != null && rows(0)._schema != null) {
-            val fields = rows(0)._schema.fields
-            for (i <- fields.indices) s += fields(i).name + "   "
-            s += "\n"
-            for (i <- fields.indices) s += "----------------------------".substring(0, fields(i).name().length) + "   "
-            s += "\n"
-          }
-
-          for (i <- rows.indices) {
-            s = s + rows(i).mkString("  ") + "\n"
-          }
-          s
-        }
-
+  js.Promise.all(promises) onComplete {
+    case Success(results) =>
+      console.log(s"results => ${JSON.stringify(results)}")
+      /*
       console.log("""Basic Dataframe Results for 'df.take' : """, printRows(results(0)(0)))
       console.log("""Basic Dataframe Results for 'df.select("name").take" : """, printRows(results(0)(1)))
       console.log("""Basic Dataframe Results for 'df.select(col("name"), col("age").plus(1)).take" : """, printRows(results(0)(2)))
-      console.log("""Basic Dataframe Results for 'df.filter(col("age").gt(21)).take" : """, printRows(results(0)[3]))
-      console.log("""Basic Dataframe Results for "SELECT * FROM people" : """, printRows(results(0)[4]))
+      console.log("""Basic Dataframe Results for 'df.filter(col("age").gt(21)).take" : """, printRows(results(0)(3)))
+      console.log("""Basic Dataframe Results for "SELECT * FROM people" : """, printRows(results(0)(4)))
 
       console.log("""Dataset Creation Example Results : """, printRows(results(1)(0)))
       console.log("""Dataset Creation Example Results : """, results(1)(1))
       console.log("""Infer Schema Results : """, results(2))
       console.log("""Programmatic Schema Results : """, results(3))
+      */
       stop()
-      case Failure(e) => stop(e)
+    case Failure(e) => stop(e)
+  }
+
+  def printRows(rows: js.Array[Row]): String = {
+    var s = "\n"
+    if (rows(0) != null && rows(0)._schema != null) {
+      val fields = rows(0)._schema.fields
+      for (i <- fields.indices) s += fields(i).name + "   "
+      s += "\n"
+      for (i <- fields.indices) s += "----------------------------".substring(0, fields(i).name().length) + "   "
+      s += "\n"
     }
+
+    for (i <- rows.indices) {
+      s = s + rows(i).mkString("  ") + "\n"
+    }
+    s
+  }
+
+  def exit(): Unit = process.exit()
+
+  def stop(e: Throwable = null)(implicit sparkSession: SparkSession) {
+    if (e != null) e.printStackTrace()
+    sparkSession.stop() onComplete { _ => exit() }
   }
 
   class Person(val name: String, val age: Int) extends js.Object

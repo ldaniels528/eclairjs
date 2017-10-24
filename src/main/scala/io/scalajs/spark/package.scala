@@ -9,6 +9,17 @@ import io.scalajs.util.ScalaJsHelper._
 package object spark {
 
   /**
+    * Spark Enrichment
+    * @param spark the given [[Spark spark]] instance
+    */
+  final implicit class SparkEnrichment(val spark: Spark) extends AnyVal {
+
+    @inline
+    def implicits: SparkImplicits = new SparkImplicits(spark)
+
+  }
+
+  /**
     * Spark Constructor
     * @param `class` the given SparkConf class reference
     */
