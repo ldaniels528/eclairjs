@@ -1,5 +1,7 @@
 package io.scalajs.spark.sql
 
+import io.scalajs.spark.RDD
+
 import scala.scalajs.js
 import scala.scalajs.js.|
 
@@ -58,6 +60,8 @@ trait DataFrame extends DataSet[Row] {
     * @return
     */
   def sort(col: Column): this.type = js.native
+
+  def toRDD(): RDD[Row] = js.native
 
   /**
     *

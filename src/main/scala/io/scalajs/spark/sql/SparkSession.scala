@@ -25,12 +25,18 @@ class SparkSession(appName: String, master: String) extends js.Object {
   def baseRelationToDataFrame(baseRelation: Double): BaseRelation = js.native
 
   /**
+    * Creates a [[SparkSession.Builder]] for constructing a SparkSession.
+    * @return a [[SparkSession.Builder]]
+    */
+  def builder(): Builder = js.native
+
+  /**
     * Creates a Dataset from RDD of Rows using the schema
     * @param rdd
     * @param schema
     * @return
     */
-  def createDataFrame[T <: Row](rdd: RDD[T], schema: StructType): DataSet[T] = js.native
+  def createDataFrame[T <: Row](rdd: RDD[T], schema: StructType | js.Any): DataFrame = js.native
 
   /**
     * Creates a Dataset from an  Array of Rows using the schema
@@ -54,7 +60,7 @@ class SparkSession(appName: String, master: String) extends js.Object {
     * @param schema object with keys corresponding to JSON field names (or getter functions), and values indicating Datatype
     * @return a [[DataSet]]
     */
-  def createDatasetFromJson(schema: StructType | js.Any, encoder: Encoder = js.native): DataSet[String] = js.native
+  def createDatasetFromJson[T](schema: StructType | js.Any, encoder: Encoder = js.native): DataSet[T] = js.native
 
   /**
     * Creates a new Dataset of type T containing zero elements.
@@ -103,12 +109,6 @@ class SparkSession(appName: String, master: String) extends js.Object {
 object SparkSession extends js.Object {
 
   type Builder = io.scalajs.spark.sql.Builder
-
-  /**
-    * Creates a [[SparkSession.Builder]] for constructing a SparkSession.
-    * @return a [[SparkSession.Builder]]
-    */
-  def builder(): Builder = js.native
 
   /**
     * Clears the active SparkSession for current thread. Subsequent calls to getOrCreate will return the first

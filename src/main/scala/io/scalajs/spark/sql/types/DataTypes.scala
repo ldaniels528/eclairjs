@@ -1,7 +1,6 @@
 package io.scalajs.spark.sql.types
 
 import scala.scalajs.js
-import scala.scalajs.js.annotation.JSGlobal
 
 /**
   * The base type of all Spark SQL data types.
@@ -9,16 +8,7 @@ import scala.scalajs.js.annotation.JSGlobal
   * @author lawrence.daniels@gmail.com
   */
 @js.native
-@JSGlobal
-sealed class DataTypes() extends js.Object
-
-/**
-  * DataTypes Singleton
-  * @author lawrence.daniels@gmail.com
-  */
-@js.native
-@JSGlobal
-object DataTypes extends js.Object {
+sealed trait DataTypes extends js.Object {
 
   ////////////////////////////////////////////////////////////////
   //    Constants
@@ -81,7 +71,7 @@ object DataTypes extends js.Object {
     * @param fields the given fields
     * @return a [[StructType]]
     */
-  def createStructType(fields: js.Array[String]): StructType = js.native
+  def createStructType(fields: js.Array[StructField]): StructType = js.native
 
 }
 

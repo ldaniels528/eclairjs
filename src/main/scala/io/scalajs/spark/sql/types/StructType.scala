@@ -12,7 +12,7 @@ import scala.scalajs.js.|
   */
 @js.native
 @JSGlobal
-class StructType(fields: js.Array[StructField]) extends js.Object {
+class StructType(val fields: js.Array[StructField]) extends js.Object {
 
   /**
     * Creates a new StructType by adding a new nullable field with no metadata.

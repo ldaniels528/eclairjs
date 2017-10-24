@@ -9,6 +9,8 @@ trait Encoders extends js.Object {
 
   def json(value: js.Any): Encoder = js.native
 
+  def STRING(): Encoder = js.native
+
 
 
 }

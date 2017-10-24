@@ -10,15 +10,6 @@ import scala.scalajs.js.annotation.JSGlobal
 @JSGlobal
 class RowFactory extends js.Object {
 
-}
-
-/**
-  * RowFactory Singleton
-  */
-@js.native
-@JSGlobal
-object RowFactory extends js.Object {
-
   /**
     * Create a Row from the given arguments. Position i in the argument list becomes position i in the created Row object.
     * @param values the given values

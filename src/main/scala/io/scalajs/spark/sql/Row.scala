@@ -1,5 +1,7 @@
 package io.scalajs.spark.sql
 
+import io.scalajs.spark.sql.types.StructType
+
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSGlobal
 
@@ -12,6 +14,8 @@ import scala.scalajs.js.annotation.JSGlobal
 @JSGlobal
 @js.native
 class Row() extends js.Object {
+
+  val _schema: StructType = js.native
 
   /**
     * Returns the value at position index.
@@ -39,6 +43,10 @@ class Row() extends js.Object {
     * @return the value
     */
   def get(index: Int): js.Any = js.native
+
+  def getAs[T <: js.Any](index: Int): T = js.native
+
+  def getAs[T <: js.Any](name: String): T = js.native
 
   /**
     * Returns the value at position index as a primitive boolean.

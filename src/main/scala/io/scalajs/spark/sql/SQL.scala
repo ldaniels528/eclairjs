@@ -13,4 +13,6 @@ trait SQL extends js.Object {
 
   val SparkSession: SparkSession = js.native
 
+  val types: Types = js.native
+
 }
