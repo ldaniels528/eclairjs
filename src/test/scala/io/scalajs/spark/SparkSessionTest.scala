@@ -1,6 +1,6 @@
 package io.scalajs.spark
 
-import io.scalajs.spark.sql.{SaveMode, SparkSession}
+import io.scalajs.spark.sql.SaveMode
 import org.scalatest.FunSpec
 
 /**
@@ -14,7 +14,7 @@ class SparkSessionTest extends FunSpec {
 
     it("should process a CSV file") {
       if(sparkIsUp) {
-        val spark: SparkSession = SparkSession.builder()
+        val spark = Spark().sql.SparkSession.builder()
           .appName("Spark-Sample")
           .master("local[*]")
           .config(new SparkConf()

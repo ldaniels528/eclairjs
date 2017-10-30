@@ -2,10 +2,12 @@ package io.scalajs.spark
 
 import io.scalajs.JSON
 import io.scalajs.nodejs._
-import io.scalajs.spark.sql.types.StructField
 import io.scalajs.spark.sql._
+import io.scalajs.spark.sql.types.StructField
 import io.scalajs.util.PromiseHelper.Implicits._
 
+import scala.concurrent.Future
+import scala.scalajs.concurrent.JSExecutionContext.Implicits.queue
 import scala.scalajs.js
 import scala.util.{Failure, Success}
 
@@ -28,11 +30,11 @@ import scala.util.{Failure, Success}
 object Example {
   private val root = process.env.getOrElse("EXAMPLE_ROOT", __dirname + "/../..")
 
-  def runBasicDataFrameExample(sparkSession: SparkSession, spark: Spark): js.Promise[js.Array[Row]] = {
-    new js.Promise((resolve, reject) => {
+  def runBasicDataFrameExample(sparkSession: SparkSession, spark: Spark): js.Promise[Any] = {
+    new js.Promise[js.Array[Row]]({ (resolve, reject) =>
       // Load a text file and convert each line to a JavaScript Object.
       val df = sparkSession.read().json(root + "/data/people.json")
-      val promises = js.Array[js.Promise[_]]()
+      val promises = js.Array[js.Promise[Any]]()
 
       // Displays the content of the DataFrame
       promises.push(df.take(5))
@@ -57,7 +59,7 @@ object Example {
         val sqlDF = sparkSession.sql("SELECT * FROM people")
         promises.push(sqlDF.take(5))
 
-        js.Promise.all(promises) onComplete {
+        Future.sequence(promises.map(_.toFuture)) onComplete {
           case Success(v) => resolve(v)
           case Failure(e) => reject(e)
         }
@@ -65,8 +67,8 @@ object Example {
     })
   }
 
-  def runDatasetCreationExample(sparkSession: SparkSession, spark: Spark): js.Promise[js.Array[Row]] = {
-    new js.Promise((resolve, reject) => {
+  def runDatasetCreationExample(sparkSession: SparkSession, spark: Spark): js.Promise[Any] = {
+    new js.Promise[js.Array[Row]]((resolve, reject) => {
 
       // Create an instance of an object
       val person = new Person(name = "Andy", age = 32)
@@ -90,15 +92,15 @@ object Example {
       // +---+----+
       promises.push(transformedDS.collect())
 
-      js.Promise.all(promises) onComplete {
+      Future.sequence(promises.map(_.toFuture)) onComplete {
         case Success(v) => resolve(v)
         case Failure(e) => reject(e.getMessage)
       }
     })
   }
 
-  def runProgrammaticSchemaExample(sparkSession: SparkSession, spark: Spark): js.Promise[Unit] = {
-    new js.Promise((resolve, reject) => {
+  def runProgrammaticSchemaExample(sparkSession: SparkSession, spark: Spark): js.Promise[Any] = {
+    new js.Promise[Unit]((resolve, reject) => {
       // Load a text file and convert each line to a JavaScript Object.
       val rdd = sparkSession.read().textFile(root + "/data/people.txt").rdd()
       val people = rdd map { line =>
@@ -141,8 +143,8 @@ object Example {
     })
   }
 
-  def runInferSchemaExample(sparkSession: SparkSession, spark: Spark): js.Promise[Nothing] = {
-    new js.Promise((resolve, reject) => {
+  def runInferSchemaExample(sparkSession: SparkSession, spark: Spark): js.Promise[Any] = {
+    new js.Promise[Unit]((resolve, reject) => {
       // Load a text file and convert each line to a JavaScript Object.
       val rdd = sparkSession.read().textFile(root + "/data/people.txt").rdd()
       val peopleRDD = rdd.map(line => {
@@ -180,7 +182,7 @@ object Example {
         val teenagerNamesByFieldDF = teenagersDF.map(row => "Name: " + row.getAs("name"), stringEncoder)
         promises.push(teenagerNamesByFieldDF.take(5))
 
-        js.Promise.all(promises) onComplete {
+        Future.sequence(promises.map(_.toFuture)) onComplete {
           case Success(v) => resolve(v)
           case Failure(e) => reject(e.getMessage)
         }
@@ -200,9 +202,9 @@ object Example {
   promises.push(runInferSchemaExample(sparkSession, spark))
   promises.push(runProgrammaticSchemaExample(sparkSession, spark))
 
-  js.Promise.all(promises) onComplete {
+  Future.sequence(promises.map(_.toFuture)) onComplete {
     case Success(results) =>
-      console.log(s"results => ${JSON.stringify(results)}")
+      console.log(s"results => ${JSON.stringify(results.asInstanceOf[js.Array[js.Any]])}")
       /*
       console.log("""Basic Dataframe Results for 'df.take' : """, printRows(results(0)(0)))
       console.log("""Basic Dataframe Results for 'df.select("name").take" : """, printRows(results(0)(1)))
