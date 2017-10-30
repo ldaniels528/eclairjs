@@ -9,14 +9,12 @@ val scalaJsIOVersion = "0.4.2"
 val apiVersion = scalaJsIOVersion
 val scalaJsVersion = "2.12.3"
 
-homepage := Some(url("https://github.com/scalajs-io/spark"))
-
 lazy val root = (project in file(".")).
   enablePlugins(ScalaJSPlugin).
   settings(
-    name := "spark",
+    name := "eclairjs",
     organization := "io.scalajs.npm",
-    description := "Arbitrary-precision integer arithmetic using OpenSSL",
+    description := "Spark API for NodeJS",
     version := apiVersion,
     scalaVersion := scalaJsVersion,
     scalacOptions ++= Seq("-deprecation", "-unchecked", "-feature", "-language:implicitConversions", "-Xlint"),
@@ -47,7 +45,7 @@ lazy val publishingSettings = Seq(
       Some("releases" at nexus + "service/local/staging/deploy/maven2")
   },
   pomExtra :=
-    <url>https://github.com/scalajs-io/spark</url>
+    <url>https://github.com/scalajs-io/eclairjs</url>
       <licenses>
         <license>
           <name>MIT License</name>
@@ -55,8 +53,8 @@ lazy val publishingSettings = Seq(
         </license>
       </licenses>
       <scm>
-        <connection>scm:git:github.com/scalajs-io/spark.git</connection>
-        <developerConnection>scm:git:git@github.com:scalajs-io/spark.git</developerConnection>
+        <connection>scm:git:github.com/scalajs-io/eclairjs.git</connection>
+        <developerConnection>scm:git:git@github.com:scalajs-io/eclairjs.git</developerConnection>
         <url>github.com/scalajs-io/spark.git</url>
       </scm>
       <developers>

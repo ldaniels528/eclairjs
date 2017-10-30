@@ -104,7 +104,7 @@ reducedWordsWithCount.collect().then(function(results) {
 To add the `Spark` binding to your project, add the following to your build.sbt:  
 
 ```sbt
-libraryDependencies += "io.scalajs" %%% "spark" % "0.4.2"
+libraryDependencies += "io.scalajs.npm" %%% "eclairjs" % "0.4.2"
 ```
 
 Optionally, you may add the Sonatype Repository resolver:
